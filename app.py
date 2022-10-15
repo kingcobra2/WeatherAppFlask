@@ -63,16 +63,23 @@ def home_post():
         new_city = request.form.get('city')
         if new_city:
             existing_city = City.query.filter_by(name=new_city).first()
-
             if not existing_city:
-        
-                    new_city_obj = City(name=new_city)
-                    db.session.add(new_city_obj)
-                    db.session.commit()
-                    flash('City added succesfully!')
-                
+                url_find_city = 'http://api.openweathermap.org/geo/1.0/direct?q={}&appid=7e085e8015c70bec0c4b339989937639'
+                try:
+                    response = requests.get(url_find_city.format(existing_city)).json()
+                    if response[0]['lat'] and response[0]['lon']:
+                        new_city_obj = City(name=existing_city.title())
+                        db.session.add(new_city_obj)
+                        db.session.commit()
+                        flash('City added succesfully!')
+                    else:
+                        err_msg='Cannot gather weather information for this city.'
+                        flash(err_msg, 'error')
+                except:
+                    err_msg = 'City does not exist!'
+                    flash(err_msg, 'error')
             else:
-                err_msg = 'City already exists!'
+                err_msg = 'City already added!'
                 flash(err_msg, 'error')
                     
     return redirect(url_for('home_get'))
