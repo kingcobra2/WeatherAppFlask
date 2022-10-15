@@ -84,6 +84,7 @@ def home_post():
                 flash(err_msg, 'error')
                     
     return redirect(url_for('home_get'))
+    
 
 if __name__ == '__main__':
     app.run()
