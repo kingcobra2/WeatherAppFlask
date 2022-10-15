@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 import requests
+import os
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "mysecret"
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///weather.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL_REAL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -83,6 +84,9 @@ def home_post():
                 flash(err_msg, 'error')
                     
     return redirect(url_for('home_get'))
+
+if __name__ == '__main__':
+    app.run()
 
 
 
