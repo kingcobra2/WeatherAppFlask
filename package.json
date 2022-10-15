@@ -3,4 +3,7 @@
     "bulma": "^0.9.4"
 
   }
+  ,"scripts": {
+    "start": "node app.py"
+  }
 }
