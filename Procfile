@@ -1,2 +1,2 @@
-web: gevent app:app
+web: gunicorn app:app
 
