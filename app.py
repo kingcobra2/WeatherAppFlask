@@ -21,6 +21,7 @@ def get_weather_data(city):
     sec_step_url = "https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&units=imperial&appid=7e085e8015c70bec0c4b339989937639"
     cities = City.query.all()
 
+
     for city in cities:
         r = requests.get(first_step_url.format(city.name)).json()
         
@@ -84,7 +85,7 @@ def home_post():
                 flash(err_msg, 'error')
                     
     return redirect(url_for('home_get'))
-    
+
 
 if __name__ == '__main__':
     app.run()
